@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="utf-8">
+<title>CPU info</title>
+<meta name="description" content="System information of Orange Pi">
+     
+</head>
+    <body>
+        <table border = 1>
+            {% for key, value in info.items() %}
+           <tr>
+              <th> {{ key }} </th>
+              <td> {{ value }} </td>
+           </tr>
+            {% endfor %}
+        </table>
+
+    </body>
+</html>

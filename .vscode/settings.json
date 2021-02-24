@@ -1,5 +1,46 @@
 {
     "python.pythonPath": "/usr/bin/python3",
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "sqltools.connections": [
+        {
+            "connectString": "TJOZSEF-PC\\SQLEXPRESS",
+            "connectionTimeout": 30,
+            "dialect": "MySQL",
+            "name": "TJOZSEF-PC",
+            "driver": "MySQL"
+        },
+        {
+            "connectString": "TJOZSEF-PC\\SQLEXPRESS",
+            "connectionTimeout": 30,
+            "dialect": "MSSQL",
+            "name": "TJOZSEF-PC",
+            "driver": "MSSQL"
+        },
+        {
+            "askForPassword": true,
+            "connectionTimeout": 30,
+            "database": "Inventory",
+            "dialect": "MSSQL",
+            "name": "TJOZSEF-PC",
+            "password": "Web12345",
+            "port": 1433,
+            "server": "192.168.8.109",
+            "username": "web",
+            "driver": "MSSQL"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "askForPassword": true,
+            "driver": "MariaDB",
+            "name": "orangepi",
+            "database": "user",
+            "username": "root"
+        }
+    ]
 }
