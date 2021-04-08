@@ -12,6 +12,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.engine.url import URL
+import xml.etree.ElementTree as ET
 
 def ds18b20_read_sensor():
     data ={}
@@ -22,18 +23,18 @@ def ds18b20_read_sensor():
     return data
 
 if __name__ == '__main__':
+    tree = ET.parse('/home/tarjanyij/Python/sqlConfig.xml')
+    root = tree.getroot()
+
     db_url = {'drivername': 'mysql+pymysql',
-               'username': 'tempwriter',
-               'password': 'Titok12345',
-               'host': 'localhost',
-               'database': 'home',
+               'username': root[1].text,
+               'password': root[2].text,
+               'host': root[0].text,
+               'database': root[3].text,
                'port': 3306 }
 
     engine = create_engine(URL(**db_url))
-
-    #engine = create_engine("PyMySQL://tempwriter:Titok12345@localhost/home")
-    # db_url = 'sqlite:///sqlite3.db'
-    # engine = create_engine(db_url)
+    
     Base = declarative_base()
     
     class Temperature(Base):

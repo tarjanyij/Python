@@ -4,6 +4,7 @@ import os
 import sys
 from time import sleep
 from w1thermsensor import W1ThermSensor
+import xml.etree.ElementTree as ET
 
 from datetime import datetime
 from sqlalchemy import create_engine, ForeignKey, Index
@@ -16,24 +17,25 @@ from sqlalchemy.engine.url import URL
 def ds18b20_read_sensor():
     data ={}
     for sensor in W1ThermSensor.get_available_sensors():
-        #print("Sensor %s has temperature %.2f" % (sensor.id, sensor.get_temperature()))
+        
         data.update({sensor.id : sensor.get_temperature()})
     
     return data
 
 if __name__ == '__main__':
-    db_url = {'drivername': 'mysql+pymysql',
-               'username': 'tempwriter',
-               'password': 'Titok12345',
-               'host': 'localhost',
-               'database': 'home',
-               'port': 3306 }
+    tree = ET.parse('/home/tarjanyij/Python/sqlConfig.xml')
+    root = tree.getroot()
 
+    db_url = {'drivername': 'mysql+pymysql',
+               'username': root[1].text,
+               'password': root[2].text,
+               'host': root[0].text,
+               'database': root[3].text,
+               'port': 3306 }
+   
     engine = create_engine(URL(**db_url))
 
-    #engine = create_engine("PyMySQL://tempwriter:Titok12345@localhost/home")
-    # db_url = 'sqlite:///sqlite3.db'
-    # engine = create_engine(db_url)
+    
     Base = declarative_base()
     
     class Temperature(Base):
@@ -41,7 +43,7 @@ if __name__ == '__main__':
         id = Column(Integer, primary_key=True)
         thermosensor_id = Column(String(50), ForeignKey('sensor_config.sensorid'))
         temperature = Column(Float)
-        date = Column(DateTime, default=datetime.utcnow)
+        date = Column(DateTime, default=datetime.now)
         SensorConfig = relationship("SensorConfig", cascade="save-update")        
     
     class SensorConfig(Base):
